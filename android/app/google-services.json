@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "147057812381",
+    "project_id": "fotogram-backend",
+    "storage_bucket": "fotogram-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147057812381:android:287f2ccccdc64eae2a8574",
+        "android_client_info": {
+          "package_name": "me.saurabhbansal.fotogram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "147057812381-e30ef0ap86mi159sgj360o0tdatpe4e6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.saurabhbansal.fotogram",
+            "certificate_hash": "26f1d33d6a2ac69d42a083abe4f27d5b68d287fa"
+          }
+        },
+        {
+          "client_id": "147057812381-cmorrmqaqlcpvi55iu6ufle30ejtm7qh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsy8hdkwQ1zgwlkQGqN_gzLwZNJfvz_QU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147057812381-cmorrmqaqlcpvi55iu6ufle30ejtm7qh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
