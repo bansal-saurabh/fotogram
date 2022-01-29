@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fotogram/utils/variables.dart';
 
 class ResponsiveLayout extends StatefulWidget {
   final Widget webLayout;
@@ -18,7 +19,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth > 600) {
+      if (constraints.maxWidth > minScreenSize) {
         return widget.webLayout;
       }
       return widget.mobileLayout;
