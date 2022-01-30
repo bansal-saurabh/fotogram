@@ -6,36 +6,43 @@ import 'package:fotogram/helpers/authorization.dart';
 import 'package:fotogram/layouts/mobile_layout.dart';
 import 'package:fotogram/layouts/responsive_layout.dart';
 import 'package:fotogram/layouts/web_layout.dart';
-import 'package:fotogram/screens/signup_screen.dart';
 import 'package:fotogram/utils/image_picker.dart';
 import 'package:fotogram/utils/variables.dart';
 import 'package:image_picker/image_picker.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  Uint8List? _image;
 
   @override
   void dispose() {
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void userLogin() async {
+  void userSignUp() async {
     setState(() {
       _isLoading = true;
     });
-    String result = await Authorization().signIn(
-        email: _emailController.text, password: _passwordController.text);
+
+    String result = await Authorization().signUp(
+        username: _usernameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        file: _image!);
+
     if (result == "Success") {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
@@ -54,6 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = false;
       });
     }
+  }
+
+  void selectImage() async {
+    Uint8List image = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
@@ -76,13 +90,51 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SvgPicture.asset(
                 'assets/fotogram_icon.svg',
-                height: 192,
+                height: 156,
               ),
               SvgPicture.asset(
                 'assets/fotogram_logo.svg',
+                height: 96,
               ),
               const SizedBox(
-                height: 72,
+                height: 12,
+              ),
+              Stack(
+                children: [
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                          backgroundColor: Colors.greenAccent,
+                        )
+                      : const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              'https://i.stack.imgur.com/l60Hf.png'),
+                          backgroundColor: Colors.greenAccent,
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      onPressed: selectImage,
+                      icon: const Icon(Icons.add_a_photo),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Username',
+                ),
+              ),
+              const SizedBox(
+                height: 18,
               ),
               TextField(
                 controller: _emailController,
@@ -92,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(
-                height: 24,
+                height: 18,
               ),
               TextField(
                 controller: _passwordController,
@@ -102,13 +154,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(
-                height: 24,
+                height: 18,
               ),
               InkWell(
                 child: Container(
                   child: !_isLoading
                       ? const Text(
-                          'Log in',
+                          'Sign Up',
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.white,
@@ -126,37 +178,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       color: Colors.purple),
                 ),
-                onTap: userLogin,
+                onTap: userSignUp,
               ),
               const SizedBox(
-                height: 12,
-              ),
-              InkWell(
-                child: Container(
-                  child: const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6)),
-                      ),
-                      color: Colors.amber),
-                ),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const SignUpScreen(),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 48,
+                height: 24,
               ),
             ],
           ),
